@@ -1,0 +1,83 @@
+#ifndef _HAL_APP_INTERFACE_H_
+#define _HAL_APP_INTERFACE_H_  (1)
+
+/*
+ *  INTEL CONFIDENTIAL
+ *  ------------------
+ *  Copyright (c) 2009-2010 Intel Corporation All Rights Reserved.
+ *
+ *    The source code contained or described herein and all documents
+ *  related to the source code ("Material") are owned by Intel
+ *  Corporation or its suppliers or licensors. Title to the Material
+ *  remains with Intel Corporation or its suppliers and licensors. The
+ *  Material contains trade secrets and proprietary  and confidential
+ *  information of Intel or its suppliers and licensors. The Material
+ *  is protected by worldwide copyright and trade secret laws and
+ *  treaty provisions. No part of the Material may be used, copied,
+ *  reproduced, modified, published, uploaded, posted, transmitted,
+ *  distributed, or disclosed in any way without Intel's prior express
+ *  written permission.
+ *
+ *    No license under any patent, copyright, trade secret or other
+ *  intellectual property right is granted to or conferred upon you by
+ *  disclosure or delivery of the Materials, either expressly, by
+ *  implication, inducement, estoppel or otherwise. Any license under
+ *  such intellectual property rights must be express and approved by
+ *  Intel in writing.
+ *
+ */
+
+#include "HAL_Interface.h"
+
+#define HAL_VALIDATE            (HAL_ENABLE)
+#define DEBUG                   (HAL_DISABLE)
+#define DEBUG_ERR               (HAL_ENABLE)
+
+
+#if DEBUG
+    #define DPRINT(fmt, args...) \
+            printf("%s(): " fmt "\n",__FUNCTION__, ##args)
+#else
+    #define DPRINT(fmt, args...)
+#endif
+
+/* This is Error debug messages to print variable values or othe info*/
+#if DEBUG_ERR
+    #define DPRINTE(fmt, args...) \
+            printf("%s(): " fmt "\n", __FUNCTION__, ##args)
+#else
+    #define DPRINTE(fmt, args...)
+#endif
+
+
+typedef enum
+{
+    DrvReg = 0x00,
+    DrvDma = 0x01,
+    DrvI2c = 0x02,
+    DrvDs = 0x03,
+    DrvMsg = 0x04,
+    DrvUs = 0x05,
+
+    DrvMax,
+
+}DrvIndex;
+
+#define FT_MUL                (0x1400000)
+#define MHZ                   (1000000)
+#define KHZ                   (1000)
+#define TDMA_POWER_CONST      (307.2)
+
+
+//Internal Protototype Goes Here
+INT32 HAL_I2c_Freq_To_Paramtr(INT32 Freq, PUINT32 Paramtr);
+INT32 HAL_I2c_Get_Data_Byte(INT32 Freq, PUINT32 DB);
+INT32 HAL_I2c_Select_Band(INT32 Freq, PUINT32 BB);
+VOID HAL_App_Init();
+INT32 create_server();
+INT32 create_clients();
+INT32 HAL_Us_Config_Power(INT32 Us_Id, FLOAT Power);
+
+
+#endif //_HAL_APP_INTERFACE_H_
+

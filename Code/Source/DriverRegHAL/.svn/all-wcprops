@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverRegHAL
+END
+HAL_Reg.c
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverRegHAL/HAL_Reg.c
+END
+HAL_Reg_Defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverRegHAL/HAL_Reg_Defines.h
+END
+HAL_Reg.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverRegHAL/HAL_Reg.h
+END
+HAL_Reg_Drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverRegHAL/HAL_Reg_Drv.c
+END

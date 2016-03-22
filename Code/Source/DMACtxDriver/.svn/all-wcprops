@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver
+END
+DOCSBSPDefines.h
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver/DOCSBSPDefines.h
+END
+DOCSHALDMADefines.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver/DOCSHALDMADefines.h
+END
+DOCSHALDMAInterface.h
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver/DOCSHALDMAInterface.h
+END
+DOCSBSPTypes.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver/DOCSBSPTypes.h
+END
+DOCSHALDMACtxCore.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver/DOCSHALDMACtxCore.c
+END
+DOCSHALDMACtxDrv.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DMACtxDriver/DOCSHALDMACtxDrv.c
+END

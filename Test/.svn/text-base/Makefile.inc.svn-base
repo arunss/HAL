@@ -1,0 +1,15 @@
+./UnitTest/CommonDrivers/DriverRegHAL
+./UnitTest/CommonDrivers/DriverMessageQ
+./UnitTest/CommonDrivers/DriverI2C
+./UnitTest/CommonDrivers/DriverDs
+./UnitTest/CommonDrivers/DriverUs
+./UnitTest/CommonDrivers/DriverDma
+./UnitTest/CommonDrivers/DriverBuffer
+./UnitTest/CommonDrivers/DriverSPI
+./UnitTest/HALApp
+./UnitTest/HALTest
+./UnitTest/CommonDrivers/I2CProbe
+./UnitTest/CommonDrivers/DMAProbe
+./UnitTest/I2CDriverTest
+./UnitTest/DMADriverTest
+./UnitTest/HALRegDriverTest

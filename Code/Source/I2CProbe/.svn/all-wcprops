@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/I2CProbe
+END
+HAL_I2c_Probe_Drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/I2CProbe/HAL_I2c_Probe_Drv.c
+END
+HAL_I2c_Probe_Drv.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/I2CProbe/HAL_I2c_Probe_Drv.h
+END
+HAL_I2c_Probe_Defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/I2CProbe/HAL_I2c_Probe_Defines.h
+END

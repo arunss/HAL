@@ -1,0 +1,71 @@
+/*
+ *  GPL LICENSE SUMMARY
+ *
+ *  Copyright(c) 2009-2010 Intel Corporation. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of version 2 of the GNU General Public License as
+ *  published by the Free Software Foundation.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
+ *  The full GNU General Public License is included in this distribution
+ *  in the file called LICENSE.GPL.
+ *
+ *  Contact Information:
+ *    Intel Corporation
+ *    2200 Mission College Blvd.
+ *    Santa Clara, CA  97052
+ *
+ */
+
+#ifndef DOCS_HAL_DMA_DEFINES_H_
+#define DOCS_HAL_DMA_DEFINES_H_
+
+/* Number and size to be allocated in memory */
+#define NUMBER_OF_DMA_CONTEXTS 13
+#define MAX_DESCR_SIZE 4096
+#define MAX_BUF_NO 128
+#define MAX_BUF_SIZE 4096
+
+/* Ioctl commands */
+#define DMA_DESC_BUILD        0x00
+#define DMA_START_ROUTINE     0x01
+#define DMA_RST_ROUTINE       0x02
+#define DMA_REG_START_ROUTINE 0x03
+#define DMA_WB_DESC_BUILD     0x04
+#define DMA_WB_START_ROUTINE  0x05
+#define DMA_DESC_VAR_BUILD    0x06
+#define DMA_SUSP_ROUTINE      0x07
+#define DMA_READ_ROUTINE      0x08
+#define DMA_TERM_ROUTINE      0x09
+#define DMA_SUSP_ROUT_2       0x10
+#define DMA_HOLD_ROUTINE      0x11
+#define DMA_HOLD_ROUTINE_1    0x12
+#define DMA_DESC_READ         0xA
+#define DMA_SUSP_ROUT_3       0xB
+#define DMA_SUSP_ROUT_4       0xC
+//ksk
+#define DMA_REG_READ          0xD
+#define DMA_REG_WRITE          0xE
+//ksk
+
+
+/* Start address of DMA register region and the total size of it */
+#define DMA_REGISTER_BASE 0xf0030000
+#define DMA_SIZE 0x400
+//#define dma_descriptor_base 0x80200000
+#define DMA_DESCRIPTOR_BASE 0x80000000
+#define DESCR_SIZE 0xcfff
+
+
+/* starting address of memory mirror image */
+#define MIRROR_BASE 0x80000000
+
+#endif /*DOCS_HAL_DMA_DEFINES_H_*/

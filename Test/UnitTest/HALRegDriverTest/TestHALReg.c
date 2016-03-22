@@ -1,0 +1,105 @@
+/*
+Test code : Added by AShah
+ */
+
+
+#include <linux/mman.h>
+#include <sys/mman.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+#define REG_CMDWRITE    (0x01)
+#define REG_CMDREAD     (0x02)
+#define REG_CMDGETBASE  (0x03)
+
+#define     DOCS_HAL_REG_MAC_DS             (0x00)
+#define     DOCS_HAL_REG_MAC_US             (0x01)
+#define     DOCS_HAL_REG_MAC_DMA            (0x02)
+#define     DOCS_HAL_REG_PHY                (0x20)
+#define     DOCS_HAL_REG_INT                (0x30)
+typedef struct {
+    unsigned int Addr;
+    unsigned int Value;
+    unsigned int Type;
+ }RegRDWR_Struct;
+ RegRDWR_Struct RegRDWR1, RegRDWR2;
+
+#ifndef MSDOS
+int getch()
+{
+    int charact, ch;
+    while ((ch=getchar()) != '\n') {charact=ch;}
+    return charact;
+}
+#endif
+
+int main(void)
+{
+
+  int fd;
+  int valid = 0x00;
+    int ioctl_command;
+    int data = 0x00;
+    char ch;
+
+
+    //DOCS_HAL_REG_Write(0x0000e00c,0x00000000,DOCS_HAL_REG_PHY);
+    //DOCS_HAL_REG_Write(0x0000e100,0x0000007d,DOCS_HAL_REG_PHY);
+    RegRDWR1.Addr   = 0x0000e100;
+    RegRDWR1.Value  = 0x0000007d;
+    RegRDWR1.Type   = DOCS_HAL_REG_PHY;
+
+    RegRDWR2.Addr   = 0x0000e100;
+    RegRDWR2.Value  = 0x00;
+    RegRDWR2.Type   = DOCS_HAL_REG_PHY;
+
+  fd = open("/var/REGDriver", O_RDWR);
+  if (fd == -1 ) { printf("err in open /var/REGDriver \n "); return;}
+
+    valid = 0;
+
+    while (!valid) {
+
+
+      fprintf(stderr, "\n   -------------- M E N U ------------ \n");
+      fprintf(stderr, "\n    Test Case  0. ********EXIT*******.");
+      fprintf(stderr, "\n    Test Case  1: HALReg Write.");
+      fprintf(stderr, "\n    Test Case  2: HALReg Read.");
+      fprintf(stderr, "\n    Choose above one of options [ ]\b\b");
+
+      //ch = getch();
+      scanf("%d",&ioctl_command);
+
+      //printf("choice is %c\n", ch);
+      //ioctl_command = ch - '0';
+
+      switch(ioctl_command) {
+
+            case 0 :
+                valid = 1;
+            break;
+            case 1 :
+               ioctl(fd,ioctl_command, &RegRDWR1);
+            break;
+            case 2 :
+               ioctl(fd,ioctl_command, &RegRDWR2);
+               fprintf(stderr, "\nRegRDWR2.value %08x.", RegRDWR2.Value );
+            break;
+
+            default :
+              if( (ioctl_command < 1) || (ioctl_command > 2))
+             {
+                printf("out of range\n");
+                break;
+              }
+
+      } // end of switch
+    }  // end of while
+
+
+  close(fd);
+  return 0;
+}

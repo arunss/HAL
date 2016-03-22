@@ -1,0 +1,44 @@
+# Programmer Configuration Goes Here
+
+
+# KVER is used when we are compiling for the Host Machine
+# Contains the Host Machine Version.
+# The kernel version of the host machine is found here
+
+KVER    := $(shell uname -r)
+
+#Assign the Kernel Source Code Directory for which we are compiling the Modules
+#Compile for i386 platform
+
+ifeq ($(Target),i386)
+KDIR := /lib/modules/$(KVER)/build
+else
+#Compile for arm platform
+KDIR := /home/docsis/linux-2.6.24
+endif
+
+#Common BSP Include Files
+INC   := $(PWD)/../../../../Code/Source/Common/
+KINC = $(KDIR)/include/docsis
+
+#Common Framework Include Files
+FINC   := $(PWD)/../../../../../FrameWork/Kernel
+
+
+#Assign where we can find our Module Source Code
+PWD    := $(shell pwd)
+
+#Include Common Extra Flags over here
+EXTRA_CFLAGS := -I$(INC) -I$(FINC) -D_SINGLE_TUNER_
+#EXTRA_CFLAGS := -I$(INC) -I$(FINC) -D_DEBUG_REG_BASED_ -D_SINGLE_TUNER_
+
+#Copy Path
+COPYDIR = /home/temp/nfs_mount/vijay
+
+#==============================================================================
+
+
+
+
+
+

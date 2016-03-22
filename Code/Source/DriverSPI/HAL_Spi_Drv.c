@@ -1,0 +1,203 @@
+/*
+ *  GPL LICENSE SUMMARY
+ *
+ *  Copyright(c) 2009-2010 Intel Corporation. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of version 2 of the GNU General Public License as
+ *  published by the Free Software Foundation.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
+ *  The full GNU General Public License is included in this distribution
+ *  in the file called LICENSE.GPL.
+ *
+ *  Contact Information:
+ *    Intel Corporation
+ *    2200 Mission College Blvd.
+ *    Santa Clara, CA  97052
+ *
+ */
+
+/*----------------------------------------------------------------------------
+ * PURPOSE - Spi driver
+ * Contains module init, exit functions and functios need for file oprations
+ *---------------------------------------------------------------------------*/
+
+
+/* --------------------------------------------------------------------------*/
+/* Headers.                                                                  */
+/* --------------------------------------------------------------------------*/
+
+//Standard Header Files
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/version.h>
+#include <linux/errno.h>
+#include <linux/interrupt.h>
+#include <asm/io.h>
+#include <linux/fs.h>
+#include <linux/mm.h>
+#include <linux/sched.h>
+#include <asm/uaccess.h>
+#include <linux/vmalloc.h>
+#include <linux/mman.h>
+#include <linux/slab.h>
+
+//Custom Header Files
+#include "HAL_Spi.h"
+
+
+/* --------------------------------------------------------------------------*/
+/* Macros.                                                                   */
+/* --------------------------------------------------------------------------*/
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("AShah");
+MODULE_DESCRIPTION("SPI Driver");
+
+
+
+
+
+/* --------------------------------------------------------------------------*/
+/* Internal prototypes.                                                      */
+/* --------------------------------------------------------------------------*/
+
+static INT32 HAL_Spi_Drv_Open (struct inode *inode, struct file *file);
+
+static INT32 HAL_Spi_Drv_Release (struct inode *inode, struct file *file);
+
+static ssize_t HAL_Spi_Drv_Read (struct file *file,
+                                 char *buf,
+                                 size_t count,
+                                 loff_t *ppos);
+
+static ssize_t HAL_Spi_Drv_Write (struct file *file,
+                                  const char *buf,
+                                  size_t count,
+                                  loff_t *ppos);
+
+static INT32 __init HAL_Spi_Drv_Init (VOID);
+
+static VOID __exit  HAL_Spi_Drv_Exit (VOID);
+
+/* -------------------------------------------------------------------------- */
+/* Internal globals.                                                          */
+/* -------------------------------------------------------------------------- */
+
+// define which file operations are supported
+struct file_operations G_HAL_Spi_Drv_Fops = {
+                .owner      =   THIS_MODULE,
+                .llseek     =   NULL, /* AShah: TBD  */
+                .read       =   HAL_Spi_Drv_Read,
+                .write      =   HAL_Spi_Drv_Write,
+                .ioctl      =   NULL,
+                .open       =   HAL_Spi_Drv_Open,
+                .release    =   HAL_Spi_Drv_Release,
+};
+
+/* --------------------------------------------------------------------------*/
+/* Function Definations.                                                     */
+/* --------------------------------------------------------------------------*/
+
+// open function - called when the "file" /var/Spi_Driver is opened in userspace
+static INT32 HAL_Spi_Drv_Open (struct inode *inode, struct file *file){
+    INT32 Ret_Val = HAL_SUCCESS;
+
+    DPRINTK("Entering.....");
+
+    return Ret_Val;
+}//HAL_Spi_Drv_Open()
+
+/*  close function - called when the "file" /var/Spi_Driver is
+ *  closed in userspace
+ */
+
+static INT32 HAL_Spi_Drv_Release (struct inode *inode, struct file *file){
+    INT32 Ret_Val = HAL_SUCCESS;
+
+    DPRINTK("Entering.....");
+
+
+    return Ret_Val;
+}//HAL_Spi_Drv_Release()
+
+// read function called when from /var/Spi_Driver is read
+static ssize_t HAL_Spi_Drv_Read (struct file *file,
+                                 char *buf,
+                                 size_t count,
+                                 loff_t *ppos){
+    INT32 Ret_Val = HAL_SUCCESS;
+
+    return Ret_Val;
+}//HAL_Spi_Drv_Read()
+
+// write function called when to /var/Spi_Driver is written
+static ssize_t HAL_Spi_Drv_Write (struct file *file,
+                                  const char *buf,
+                                  size_t count,
+                                  loff_t *ppos){
+    INT32 Ret_Val = HAL_SUCCESS;
+
+    DPRINTK("Entering.....");
+    return Ret_Val;
+}//HAL_Spi_Drv_Write()
+
+
+
+
+
+
+//Init routine- register as char driver
+static INT32 __init  HAL_Spi_Drv_Init (VOID)
+{
+    INT32 Ret_Val = HAL_SUCCESS;
+
+    DPRINTK("Entering .....");
+
+    /*
+     * 1. Regsister as Char Driver
+     * 2. Setup SPI
+     */
+
+    Ret_Val = register_chrdev (DRIVER_MAJOR, DRIVER_NAME, &G_HAL_Spi_Drv_Fops);
+    if (Ret_Val != 0){
+         return - EIO;
+    }//if
+
+    PRINT_DRV_INFO();
+    DPRINTK("create the device entry in /dev ");
+    DPRINTK("mknod -m 666 /var/%s c %d 0", DRIVER_NAME, DRIVER_MAJOR);
+
+    return HAL_SUCCESS;
+}//HAL_Spi_Drv_Init()
+
+
+// close and cleanup module
+static VOID __exit  HAL_Spi_Drv_Exit (VOID)
+{
+
+    DPRINTK("Entering .....");
+
+    /*
+     * 1. Unregister as Char Driver
+     * 2. Release All DMA Context
+     */
+
+    //1.Unregister driver
+    unregister_chrdev(DRIVER_MAJOR, DRIVER_NAME);
+
+}//HAL_Spi_Drv_Exit()
+
+
+
+
+module_init( HAL_Spi_Drv_Init);
+module_exit( HAL_Spi_Drv_Exit);

@@ -1,0 +1,59 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/843/DocsisDev/BSP/Test/UnitTest/HALTest
+END
+load-dmaprobe.sh
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/238/DocsisDev/BSP/Test/UnitTest/HALTest/load-dmaprobe.sh
+END
+load-reg.sh
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/238/DocsisDev/BSP/Test/UnitTest/HALTest/load-reg.sh
+END
+unloadall.sh
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/330/DocsisDev/BSP/Test/UnitTest/HALTest/unloadall.sh
+END
+MainTest.c
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/809/DocsisDev/BSP/Test/UnitTest/HALTest/MainTest.c
+END
+load-message.sh
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/238/DocsisDev/BSP/Test/UnitTest/HALTest/load-message.sh
+END
+load-ds.sh
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/238/DocsisDev/BSP/Test/UnitTest/HALTest/load-ds.sh
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/809/DocsisDev/BSP/Test/UnitTest/HALTest/Makefile
+END
+load-us.sh
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/843/DocsisDev/BSP/Test/UnitTest/HALTest/load-us.sh
+END
+load-all.sh
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/843/DocsisDev/BSP/Test/UnitTest/HALTest/load-all.sh
+END

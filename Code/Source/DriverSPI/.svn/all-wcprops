@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/828/DocsisDev/BSP/Code/Source/DriverSPI
+END
+HAL_Spi.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/828/DocsisDev/BSP/Code/Source/DriverSPI/HAL_Spi.c
+END
+HAL_Spi_Defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverSPI/HAL_Spi_Defines.h
+END
+HAL_Spi.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverSPI/HAL_Spi.h
+END
+HAL_Spi_Drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverSPI/HAL_Spi_Drv.c
+END

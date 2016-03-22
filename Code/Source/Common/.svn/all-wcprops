@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svn/!svn/ver/828/DocsisDev/BSP/Code/Source/Common
+END
+HAL_OS_Defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/Common/HAL_OS_Defines.h
+END
+HAL_Interface.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/Common/HAL_Interface.h
+END
+HAL_MAC_Register.h
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/828/DocsisDev/BSP/Code/Source/Common/HAL_MAC_Register.h
+END
+HAL_Types.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/Common/HAL_Types.h
+END

@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/852/DocsisDev/BSP/Test/UnitTest/HALRegDriverTest
+END
+TestHALReg.c
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/852/DocsisDev/BSP/Test/UnitTest/HALRegDriverTest/TestHALReg.c
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/207/DocsisDev/BSP/Test/UnitTest/HALRegDriverTest/Makefile
+END

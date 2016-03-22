@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/846/DocsisDev/BSP/Test/UnitTest/I2CDriverTest
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/205/DocsisDev/BSP/Test/UnitTest/I2CDriverTest/Makefile
+END
+TestI2C.c
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/846/DocsisDev/BSP/Test/UnitTest/I2CDriverTest/TestI2C.c
+END

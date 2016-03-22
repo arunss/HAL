@@ -1,0 +1,255 @@
+/*
+ *  GPL LICENSE SUMMARY
+ *
+ *  Copyright(c) 2009-2010 Intel Corporation. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of version 2 of the GNU General Public License as
+ *  published by the Free Software Foundation.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
+ *  The full GNU General Public License is included in this distribution
+ *  in the file called LICENSE.GPL.
+ *
+ *  Contact Information:
+ *    Intel Corporation
+ *    2200 Mission College Blvd.
+ *    Santa Clara, CA  97052
+ *
+ */
+
+
+
+/*-----------------------------------------------------------------------------
+ * PURPOSE
+ *  Brief Description of the overall implementation strategy used in the module.
+ *  Platform specific implementation details and optimization strategies
+ *  should be described.
+ *
+ * HISTORY (Version, Date, Author, Note)
+ *------------------------------------------------------------------------------
+ *   Ver.0.01   13/5/08  AShah     Intial Draft
+ *
+ ******************************************************************************/
+
+/* --------------------------------------------------------------------------*/
+/* Headers.                                                                  */
+/* --------------------------------------------------------------------------*/
+
+//Standard Header Files
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/version.h>
+#include <linux/errno.h>
+#include <linux/interrupt.h>
+#include <asm/io.h>
+#include <linux/fs.h>
+#include <linux/mm.h>
+#include <linux/sched.h>
+#include <asm/uaccess.h>
+#include <linux/vmalloc.h>
+#include <linux/mman.h>
+#include <linux/slab.h>
+#include <linux/connector.h>
+
+//Custom Header Files
+#include "HAL_Message.h"
+
+
+//Include External Interfaces
+
+
+/* --------------------------------------------------------------------------*/
+/* Macros.                                                                   */
+/* --------------------------------------------------------------------------*/
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("AShah");
+MODULE_DESCRIPTION("Socket Message Driver");
+
+
+
+//INT32 HAL_Msg_Send(struct socket *sock, const char *Buffer, size_t Length);
+
+/* --------------------------------------------------------------------------*/
+/* Internal prototypes.                                                      */
+/* --------------------------------------------------------------------------*/
+
+
+static INT32 DOCS_MSGDRV_OSM_Release (struct inode *inode, struct file *file);
+static INT32 DOCS_MSGDRV_OSM_Ioctl(struct inode* inode,struct file* pt_file,  \
+                                   unsigned int cmd,unsigned long arg);
+static INT32 __init ModuleInit (VOID);
+static VOID __exit ModuleExit (VOID);
+
+static INT32 G_drv_major = 0;
+
+/* --------------------------------------------------------------------------*/
+/* Function Definations.                                                     */
+/* --------------------------------------------------------------------------*/
+
+struct socket *sock;
+
+
+
+// close function - called when the "file" /dev/SPIDriver is
+//closed in userspace
+static INT32 DOCS_MSGDRV_OSM_Release (struct inode *inode, struct file *file)
+{
+  INT32 retval = HAL_SUCCESS;
+
+  DPRINTK("Entering.....");
+
+
+  return retval;
+}
+
+//ioctl
+extern MessageQ_t MsgQ[];
+
+static INT32 DOCS_MSGDRV_OSM_Ioctl(struct inode* inode,struct file* pt_file,  \
+    unsigned int cmd,unsigned long arg)
+{
+  INT32 PortNo = 9999;
+  INT32 MsgId = 0x00;
+  //char array[]={12,23,34,45,56,67,78};
+
+
+  /* 1. Obtain parameters from user space*/
+  if(copy_from_user(&(PortNo),(unsigned int*)arg,sizeof(INT32)))
+  {
+    DPRINTE("Unable to copy RegDrv parameter from user space");
+    return HAL_FAILED;
+  }
+  DPRINTK("Port No %d", PortNo);
+
+  if(copy_from_user(&(MsgId),(unsigned int*)arg,sizeof(INT32)))
+  {
+    DPRINTE("Unable to copy RegDrv parameter from user space");
+    return HAL_FAILED;
+  }
+
+  DPRINTK("Message %d", MsgId);
+
+  PortNo = 9999;
+  MsgId = MsgDmaDs;
+  switch (cmd)
+  {
+
+    case CMD_MSG_SET_PORT:
+      //MSGGetSocket(MsgId) = set_up_client_socket(0, PortNo);
+      sock = set_up_client_socket(0, PortNo);
+      MSGGetSocket(MsgId) = sock;
+      DPRINTK("Socket1 %x \n", MSGGetSocket(MsgId));
+      DPRINTK("Socket2 %x \n", sock);
+
+
+      if(MSGGetSocket(MsgId)!=NULL)
+        MSGGetPort(MsgId) = PortNo;
+
+      break;
+
+    case CMD_MSG_CLR_PORT:
+
+
+
+
+
+#if 0
+      if(MSGGetSocket(MsgId) != NULL)
+      {
+        HAL_Msg_Send(MsgId, "123134124124", 12);
+        sock_release(MSGGetSocket(MsgId));
+        MSGGetPort(MsgId) = NULL;
+        MSGGetSocket(MsgId) = NULL;
+      }
+#endif
+
+      break;
+
+
+    default:
+      DPRINTE("default ");
+      break;
+
+  }
+
+  return HAL_SUCCESS;
+}//end of ioctl
+
+
+
+// define which file operations are supported
+struct file_operations dma_drv_fops = {
+  .owner      =   THIS_MODULE,
+  .llseek     =   NULL, /* AShah: TBD  */
+  .read       =   NULL,
+  .write      =   NULL,
+  .ioctl      =   DOCS_MSGDRV_OSM_Ioctl,
+  .open       =   NULL,
+  .release    =   DOCS_MSGDRV_OSM_Release,
+};
+
+
+static INT32 __init ModuleInit (VOID)
+{
+  INT32 retval = HAL_SUCCESS;
+
+  DPRINTK("Entering .....");
+
+  /*
+   * 1. Regsister as Char Driver
+   * 2. Setup HAL REG
+   */
+
+  retval = register_chrdev (DRIVER_MAJOR, DRIVER_NAME, &dma_drv_fops);
+  if (retval < 0) return - EIO;
+
+  G_drv_major = retval;
+
+  PRINT_DRV_INFO();
+  DPRINTK("create the device entry in /dev ");
+  DPRINTE("mknod -m 666 /var/%s c %d 0", DRIVER_NAME, DRIVER_MAJOR);
+
+  retval = DOCSMessageComInit();
+  if (retval != HAL_SUCCESS)
+  {
+    unregister_chrdev(DRIVER_MAJOR,DRIVER_NAME);
+  }
+
+  return HAL_SUCCESS;
+}
+
+
+// close and cleanup module
+static VOID __exit ModuleExit (VOID)
+{
+
+  DPRINTK("Entering .....");
+
+  /*
+   * 1. Unregister as Char Driver
+   * 2. Release All DMA Context
+   */
+
+
+  //1.unmap and release all mapped and requested region
+  DOCSMessageComRelease();
+
+  //2.Unregister driver
+  unregister_chrdev(DRIVER_MAJOR, DRIVER_NAME);
+
+}
+
+
+
+
+module_init(ModuleInit);
+module_exit(ModuleExit);

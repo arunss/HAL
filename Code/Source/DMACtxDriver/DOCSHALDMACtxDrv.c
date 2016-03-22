@@ -1,0 +1,324 @@
+/*
+ *  GPL LICENSE SUMMARY
+ *
+ *  Copyright(c) 2009-2010 Intel Corporation. All rights reserved.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of version 2 of the GNU General Public License as
+ *  published by the Free Software Foundation.
+ *
+ *  This program is distributed in the hope that it will be useful, but
+ *  WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St - Fifth Floor, Boston, MA 02110-1301 USA.
+ *  The full GNU General Public License is included in this distribution
+ *  in the file called LICENSE.GPL.
+ *
+ *  Contact Information:
+ *    Intel Corporation
+ *    2200 Mission College Blvd.
+ *    Santa Clara, CA  97052
+ *
+ */
+
+/******************************************************************************
+* PURPOSE
+* This is the DMA driver. Applications call the driver using ioctl for different
+* DMA modes of operation, to check the dma status etc. The driver is also used
+* to modify the current DMA operation.
+******************************************************************************/
+
+/* -------------------------------------------------------------------------- */
+/* Headers.                                                                   */
+/* -------------------------------------------------------------------------- */
+
+//Standard Header Files
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/version.h>
+#include <linux/fs.h>
+#include <linux/mm.h>
+#include <linux/sched.h>
+#include <linux/ioport.h>
+#include <linux/slab.h>
+#include <linux/kernel.h>
+#include <asm/uaccess.h>
+#include <asm/io.h>
+#include <asm/system.h>
+
+//Custom Header Files
+#include "HAL_Types.h"
+#include "DOCSBSPDefines.h"
+#include "DOCSHALDMAInterface.h"
+#include "DOCSHALDMADefines.h"
+
+/* -------------------------------------------------------------------------- */
+/* Macros.                                                                    */
+/* -------------------------------------------------------------------------- */
+
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("AShah");
+MODULE_DESCRIPTION("Dma Driver");
+
+
+
+/* -------------------------------------------------------------------------- */
+/* Internal prototypes.                                                       */
+/* -------------------------------------------------------------------------- */
+static INT32 DOCS_DMADRV_OSM_Open(struct inode*, struct file*);
+static INT32 DOCS_DMADRV_OSM_Release(struct inode*, struct file*);
+static INT32 DOCS_DMADRV_OSM_Ioctl(struct inode*, struct file*, unsigned int, \
+unsigned long);
+static INT32 DOCS_DMADRV_Init(VOID);
+VOID DOCS_DMADRV_Cleanup(VOID);
+
+
+/* -------------------------------------------------------------------------- */
+/* Functions.                                                                 */
+/* -------------------------------------------------------------------------- */
+
+/* Device Open Call. This function called when opening device in userspace
+ * parameters passsed - pointer to inode, pointer to file
+ * Return type - (0/1) (success/failure)
+ */
+static INT32 DOCS_DMADRV_OSM_Open(struct inode* inode,struct file* pt_file)
+{
+  /* Nothing to Do Now */
+    return HAL_SUCCESS;
+}
+
+/* Device Close Call. This function called when closing device in userspace
+ * parameters passsed - pointer to inode, pointer to file
+ * Return type - (0/1) (success/failure)
+ */
+static INT32 DOCS_DMADRV_OSM_Release(struct inode* inode,struct file* pt_file)
+{
+  /* Nothing to Do Now */
+    return HAL_SUCCESS;
+}
+
+/* Device Ioctl Call
+ * 1. Obtain context of the DMA
+ * 2. Build the DMA descriptor chain
+ * 3. Call the reset routine
+ * 4. Start the DMA
+ * parameters passsed - pointer to inode, pointer to file, cmd, arg
+ * Return type - (0/1) (success/failure)
+*/
+static INT32 DOCS_DMADRV_OSM_Ioctl(struct inode* inode,struct file* pt_file,  \
+unsigned int cmd,unsigned long arg)
+{
+  UINT32 Context,Addr;
+  /* 1. Obtain context of the DMA */
+  if(copy_from_user(&Context,(unsigned int*)arg,sizeof(int)))
+  {
+    DPRINTK("Unable to copy context from user space");
+    return HAL_FAILED;
+  }
+
+  /* 2. Build the DMA descriptor chain */
+  if(cmd == DMA_DESC_BUILD)
+  {
+    DOCS_DMA_DESC_Build(Context);
+  }
+
+  /* 3. Call the reset routine */
+  if(cmd == DMA_RST_ROUTINE)
+  {
+    DOCS_DMA_RST_Routine(Context);
+  }
+
+  /* 4. Start the DMA */
+  if(cmd == DMA_START_ROUTINE)
+  {
+    DPRINTK("");
+    DPRINTK("Selected the start routine");
+    DOCS_DMA_START_Routine(Context);
+  }
+
+  /* 5. Start DMA in Reg Mode */
+  if(cmd == DMA_REG_START_ROUTINE)
+  {
+    DPRINTK("");
+    DPRINTK("Selected the Reg start routine");
+    DOCS_DMA_REG_START_Routine(Context);
+  }
+
+  /* 6. Build the DMA writeback descriptor chain */
+  if(cmd == DMA_WB_DESC_BUILD)
+  {
+    DOCS_DMA_WBDESC_Build(Context);
+  }
+
+  /* 7. Start the DMA in wback mode */
+  if(cmd == DMA_WB_START_ROUTINE)
+  {
+    DPRINTK("");
+    DPRINTK("Selected the writeback start routine");
+    DOCS_DMA_WBSTART_Routine(Context);
+  }
+
+  /* 8. Build the DMA descriptor chain for different transfer lengths */
+  if(cmd == DMA_DESC_VAR_BUILD)
+  {
+    DOCS_DMA_DESCR_VAR_Build(Context);
+  }
+
+  /* 9. Call the suspend routine 1*/
+  if(cmd == DMA_SUSP_ROUTINE)
+  {
+    DOCS_DMA_SUSP_Routine_1(Context);
+  }
+
+  /* 9. Call the suspend routine 2*/
+  if(cmd == DMA_SUSP_ROUT_2)
+  {
+    DOCS_DMA_SUSP_Routine_2(Context);
+  }
+
+  /* 11. Call the suspend routine */
+  if(cmd == DMA_READ_ROUTINE)
+  {
+    DOCS_DMA_READ_Routine(Context,arg);
+  }
+
+  /* 12. Call the terminate routine */
+  if(cmd == DMA_TERM_ROUTINE)
+  {
+    DOCS_DMA_TERM_Routine(Context);
+  }
+
+    /* 12. Call the hold routine */
+  if(cmd == DMA_HOLD_ROUTINE)
+  {
+    DOCS_DMA_DESC_Hold(Context);
+  }
+
+    /* 12. Call the hold 1 routine */
+  if(cmd == DMA_HOLD_ROUTINE_1)
+  {
+    DOCS_DMA_DESC_Hold_1(Context);
+  }
+
+  /* 13. Read DMA descriptor */
+  if(cmd == DMA_DESC_READ)
+  {
+    DPRINTK("Selected read routine");
+    DOCS_DMA_DESC_Read(Context);
+  }
+
+  /* 9. Call the suspend routine 3*/
+  if(cmd == DMA_SUSP_ROUT_3)
+  {
+    DOCS_DMA_SUSP_Routine_3(Context);
+  }
+
+  /* 9. Call the suspend routine 4*/
+  if(cmd == DMA_SUSP_ROUT_4)
+  {
+    DOCS_DMA_SUSP_Routine_4(Context);
+  }
+
+  //Read register /address of mapped region
+  if(cmd == DMA_REG_READ )
+  {
+    //It is not context ,it is addr to read
+    Addr = Context ;
+    DOCS_DMA_REG_READ(Addr,arg);
+  }
+  //Write to register /address of mapped region
+  if(cmd == DMA_REG_WRITE )
+  {
+    //It is not context ,it is addr to write at
+    Addr = Context ;
+    DOCS_DMA_REG_WRITE(Addr,arg);
+  }
+
+    return HAL_SUCCESS;
+}
+
+/* File Operations Supported by DMA Driver */
+struct file_operations char_ops = {
+    .owner   = THIS_MODULE,
+    .ioctl   = DOCS_DMADRV_OSM_Ioctl,
+    .open     = DOCS_DMADRV_OSM_Open,
+    .release = DOCS_DMADRV_OSM_Release,
+};
+
+
+/* Insertion of DMA driver
+ *
+ * 1. Register as char driver
+ * 2. Call routine DOCS_DMA_REG_Access to map and access DMA registers
+ * 3. Call routine DOCS_DMA_MEM_Request to allocate memory for descriptors and
+ *    data buffers
+ * parameters passsed - null
+ * Return type - (0/1) (success/failure)
+*/
+static INT32 DOCS_DMADRV_Init(VOID)
+{
+  INT32 result;
+  PRINT_DRV_INFO();
+  DPRINTK("create the device entry in /var/ ");
+  DPRINTK("mknod -m 666 /var/%s c %d 0", DRIVER_NAME, DRIVER_MAJOR);
+
+  /* 1. Register as Char Driver */
+  result=register_chrdev(DRIVER_MAJOR,DRIVER_NAME,&char_ops);
+  if(result<0)
+  {
+    DPRINTK("Could not register device");
+    return result;
+  }
+
+  /* 2. Call routine DOCS_DMA_REG_Access to map and access DMA registers */
+  if(DOCS_DMA_REG_Access())
+  {
+    DPRINTK("Cant access region %x\n", DMA_REGISTER_BASE);
+    unregister_chrdev(DRIVER_MAJOR,DRIVER_NAME);
+    return HAL_FAILED;
+  }
+
+  /* 3. Call routine DOCS_DMA_MEM_Request to allocate memory
+         for descriptors and data buffers */
+  if(DOCS_DMA_MEM_Request())
+  {
+    DPRINTK("Routine to allocate memory for descriptors/buffers failed\n");
+    unregister_chrdev(DRIVER_MAJOR,DRIVER_NAME);
+    return HAL_FAILED;
+  }
+
+  return HAL_SUCCESS;
+}
+
+/* Cleanup routine when driver is removed
+ * 1. Unregister the Driver
+ * 2. Routine DOCS_DMA_REG_Free called to free memory area containing DMA
+ *    registers
+ * 3. Routine DOCS_DMA_MEM_Free to free memory occupied by descriptors and data
+ *    buffers
+ * parameters passsed - null
+ * Return type - void
+*/
+VOID DOCS_DMADRV_Cleanup(VOID)
+{
+
+  /* 1. Unregister the Driver */
+  unregister_chrdev(DRIVER_MAJOR,DRIVER_NAME);
+
+  /* 2. Routine DOCS_DMA_REG_Free called to free memory area containing DMA
+        registers */
+  DOCS_DMA_REG_Free();
+
+  /* 3. Routine DOCS_DMA_MEM_Free to free memory occupied by descriptors and
+   *    data buffers */
+  DOCS_DMA_MEM_Free();
+  return;
+}
+
+/* Dma Driver Init and Exit Calls */
+module_init(DOCS_DMADRV_Init);
+module_exit(DOCS_DMADRV_Cleanup);

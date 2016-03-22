@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverI2C
+END
+HAL_I2c.c
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverI2C/HAL_I2c.c
+END
+HAL_I2c_Defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverI2C/HAL_I2c_Defines.h
+END
+HAL_I2c.h
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverI2C/HAL_I2c.h
+END
+HAL_I2c_Drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverI2C/HAL_I2c_Drv.c
+END

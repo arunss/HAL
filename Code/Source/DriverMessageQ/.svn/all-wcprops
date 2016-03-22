@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverMessageQ
+END
+HAL_Message_Drv.c
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverMessageQ/HAL_Message_Drv.c
+END
+HAL_Message.c
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverMessageQ/HAL_Message.c
+END
+HAL_Message_Defines.h
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverMessageQ/HAL_Message_Defines.h
+END
+HAL_Message.h
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/809/DocsisDev/BSP/Code/Source/DriverMessageQ/HAL_Message.h
+END
